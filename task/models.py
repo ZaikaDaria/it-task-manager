@@ -25,8 +25,8 @@ class Position(models.Model):
 class Worker(AbstractUser):
     position = models.ForeignKey(
         Position,
-        blank=True,
-        null=True,
+        blank=False,
+        null=False,
         on_delete=models.CASCADE,
         related_name="workers",
     )
@@ -55,7 +55,7 @@ class Task(models.Model):
         default="medium",
     )
     task_type = models.ForeignKey(
-        TaskType, on_delete=models.CASCADE, related_name="tasks"
+        TaskType, on_delete=models.CASCADE, related_name="tasks", null=False, blank=False
     )
     assignees = models.ManyToManyField(Worker)
 
