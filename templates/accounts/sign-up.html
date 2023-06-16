@@ -1,7 +1,7 @@
 {% extends 'layouts/base_sections.html' %}
 {% load static %}
 
-{% block title %} Soft UI Design System by Creative Tim {% endblock title %}
+{% block title %} Sign-Up {% endblock title %}
 {% block body %} class="sign-in-illustration" {% endblock body %}
 
 {% block header %}
@@ -40,7 +40,7 @@
             <div class="card-footer text-center pt-0 px-lg-2 px-1">
               <p class="mb-4 text-sm mx-auto">
                 Already have an account?
-                <a href="{% url 'login' %}" class="text-primary text-gradient font-weight-bold">Sign In</a>
+                <a href="{% url 'task:login' %}" class="text-primary text-gradient font-weight-bold">Sign In</a>
               </p>
             </div>
           </div>
@@ -64,6 +64,6 @@
 
 {% block footer %}
 
-{% include 'includes/footer_signin.html' %}
+{% include 'includes/footer_background.html' %}
 
 {% endblock footer %}
