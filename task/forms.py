@@ -8,8 +8,6 @@ from django.contrib.auth.forms import (
     PasswordChangeForm,
     UsernameField,
 )
-from django.contrib.auth.models import User
-from django.core.validators import MinLengthValidator
 from django.utils.translation import gettext_lazy as _
 
 from .models import Worker, Task
@@ -74,7 +72,7 @@ class RegistrationForm(UserCreationForm):
     )
 
     class Meta:
-        model = User
+        model = get_user_model()
         fields = (
             "username",
             "email",
