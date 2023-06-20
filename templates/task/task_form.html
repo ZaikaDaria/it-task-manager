@@ -18,7 +18,7 @@
           <div class="col-lg-7 d-flex justify-content-center flex-column">
             <div class="card d-flex blur justify-content-center p-4 shadow-lg my-sm-0 my-sm-6 mt-8 mb-5">
               <div class="text-center">
-                <h3 class="text-gradient text-primary">New Task</h3>
+                <h3 class="text-gradient text-primary">{{ object|yesno:"Update,Create" }} task</h3>
               </div>
 
               <form id="contact-form" method="post" autocomplete="off">
