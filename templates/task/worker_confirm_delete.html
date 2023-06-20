@@ -1,7 +1,7 @@
 {% extends 'layouts/base_sections.html' %}
 {% load static %}
 
-{% block title %} Delete Task {% endblock title %}
+{% block title %} Delete Worker {% endblock title %}
 {% block body %} class="sign-in-illustration" {% endblock body %}
 
 {% block header %}
@@ -19,13 +19,15 @@
         <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
           <div class="card card-plain">
             <div class="card-header pb-0 text-left">
-              <h4 class="font-weight-bolder">Delete this task?</h4>
+              <h4 class="font-weight-bolder">Delete this profile?</h4>
             </div>
             <div class="card-body">
               <form action="" method="post">
-                {% csrf_token %}
-                <input type="submit" value="Yes" class="btn btn-danger">
-                <a href="{% url 'task:task-list' %}" class="btn">Return to the task list</a>
+                  {% csrf_token %}
+
+              <input type="submit" value="Yes" class="btn btn-danger">
+                <a href="{% url 'task:worker-list' %}" class="btn">Return to the worker list</a>
+              </form>
             </div>
           </div>
         </div>
