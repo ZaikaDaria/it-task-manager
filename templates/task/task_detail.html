@@ -61,16 +61,17 @@
                               <li>{{ assignee.username }}</li>
                               {% endfor %}
                             </ul>
-                              {% if task in user.tasks.all %}
-                                <a href="{% url 'task:assign' pk=task.id %}" class="btn">
-                                  Delete me from this task
-                                </a>
-                              {% else %}
-                                <a href="{% url 'task:assign' pk=task.id %}" class="btn">
-                                  Assign me from this task
-                                </a>
-                              {% endif %}
-
+                                {% if user not in task.assignees.all %}
+                                <form action="{% url 'task:task-assign-worker' pk=task.pk %}" method="post">
+                                  {% csrf_token %}
+                                  <input type="submit" value="Assign me to this task" class="btn">
+                                </form>
+                                {% else %}
+                                <form action="{% url 'task:task-remove-worker' pk=task.pk %}" method="post">
+                                  {% csrf_token %}
+                                  <input type="submit" value="Delete me from this task" class="btn">
+                                </form>
+                                {% endif %}
                           </p>
                           <hr>
                           <a href="{% url 'task:task-update' pk=task.id %}" class="btn">Update</a>

@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -110,7 +110,7 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
 
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
-    # queryset = Worker.objects.all().select_related("position")
+    queryset = Worker.objects.all().select_related("position")
 
 
 class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
@@ -130,11 +130,13 @@ class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("task:worker-list")
 
 
-# Authentication
+class RegisterView(generic.View):
+    def get(self, request):
+        form = RegistrationForm()
+        context = {"form": form}
+        return render(request, "accounts/sign-up.html", context)
 
-
-def register(request):
-    if request.method == "POST":
+    def post(self, request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
@@ -142,11 +144,9 @@ def register(request):
             return redirect("/accounts/login")
         else:
             print("Registration failed!")
-    else:
-        form = RegistrationForm()
 
-    context = {"form": form}
-    return render(request, "accounts/sign-up.html", context)
+        context = {"form": form}
+        return render(request, "accounts/sign-up.html", context)
 
 
 class UserLoginView(LoginView):
@@ -154,9 +154,10 @@ class UserLoginView(LoginView):
     form_class = UserLoginForm
 
 
-def logout_view(request):
-    logout(request)
-    return redirect("/accounts/login")
+class LogoutView(generic.View):
+    def get(self, request):
+        logout(request)
+        return redirect("/accounts/login")
 
 
 class UserPasswordResetView(PasswordResetView):
@@ -174,12 +175,25 @@ class UserPasswordChangeView(PasswordChangeView):
     form_class = UserPasswordChangeForm
 
 
-@login_required
-def assign_to_task(request, pk):
-    tasks = Task.objects.get(id=request.user.id)
+class AssignWorkerView(generic.RedirectView):
+    def post(self, request, *args, **kwargs):
+        pk = kwargs['pk']
+        task = Task.objects.get(pk=pk)
+        task.assignees.add(request.user)
+        return super().post(request, *args, **kwargs)
 
-    if Task.objects.get(id=pk) in tasks.assignees.all():
-        tasks.assignees.remove(pk)
-    else:
-        tasks.assignees.add(pk)
-    return HttpResponseRedirect(reverse_lazy("task:task-detail", args=[pk]))
+    def get_redirect_url(self, *args, **kwargs):
+        pk = kwargs['pk']
+        return reverse("task:task-detail", kwargs={"pk": pk})
+
+
+class RemoveWorkerView(generic.View):
+    def post(self, request, pk):
+        task = Task.objects.get(pk=pk)
+        task.assignees.remove(request.user)
+
+        return redirect("task:task-detail", pk=task.pk)
+
+    def get(self, request, pk):
+        task = Task.objects.get(pk=pk)
+        return redirect("task-detail", pk=task.pk)

@@ -25,3 +25,19 @@ python manage.py createsuperuser
 ```
 python manage.py runserver
 ```
+### Environment Variables Configuration
+
+**.env.example** file helps you to configue the environment variables for your project.
+
+#### Usage
+* Rename this file from **.env.example** to **.env**.
+* Fill in the necessary values for the environment variables.
+
+#### Variables
+Here is a list of environment variables used in the application:
+**SECRET_KEY:** the token, encrypting session data, signing cookies, and protecting against tampering or forgery attacks.
+
+#### Notes
+* Make sure to keep the .env file secure and do not share it publicly, as it may contain sensitive information.
+* It is recommended to use a different set of environment variables for production, development, and testing environments.
+* If you are using a different configuration management system (e.g., Docker Compose, Kubernetes ConfigMap), you may not need to use an .env file. Adjust the configuration according to your environment.

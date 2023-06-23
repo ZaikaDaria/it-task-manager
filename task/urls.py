@@ -1,10 +1,8 @@
 from django.urls import path
 
-from task import views
 from django.contrib.auth import views as auth_views
 
 from task.views import (
-    assign_to_task,
     index,
     TaskListView,
     TaskDetailView,
@@ -16,41 +14,47 @@ from task.views import (
     WorkerCreateView,
     WorkerUpdateView,
     WorkerDeleteView,
+    AssignWorkerView,
+    RemoveWorkerView,
+    LogoutView,
+    RegisterView,
+    UserLoginView,
+    UserPasswordChangeView,
+    UserPasswordResetView,
+    UserPasswordResetConfirmView
 )
 
 urlpatterns = [
     path("", index),
-
     # Task
     path("tasks/", TaskListView.as_view(), name="task-list"),
     path("tasks/<int:pk>/", TaskDetailView.as_view(), name="task-detail"),
-    path(
-        "tasks/create/", TaskCreateView.as_view(), name="task-create"
-    ),
-    path(
-        "tasks/<int:pk>/update/", TaskUpdateView.as_view(), name="task-update"
-    ),
+    path("tasks/create/", TaskCreateView.as_view(), name="task-create"),
+    path("tasks/<int:pk>/update/", TaskUpdateView.as_view(), name="task-update"),
     path("tasks/<int:pk>/delete/", TaskDeleteView.as_view(), name="task-delete"),
-    path("tasks/<int:pk>/assign/", assign_to_task, name="assign"),
-
+    path(
+        "tasks/add-worker/<int:pk>/",
+        AssignWorkerView.as_view(),
+        name="task-assign-worker",
+    ),
+    path(
+        "tasks/remove-worker/<int:pk>/",
+        RemoveWorkerView.as_view(),
+        name="task-remove-worker",
+    ),
     # Worker
     path("workers/", WorkerListView.as_view(), name="worker-list"),
-    path(
-        "workers/<int:pk>/", WorkerDetailView.as_view(), name="worker-detail"
-    ),
+    path("workers/<int:pk>/", WorkerDetailView.as_view(), name="worker-detail"),
     path("workers/create/", WorkerCreateView.as_view(), name="worker-create"),
-    path(
-        "worker/<int:pk>/update/", WorkerUpdateView.as_view(), name="worker-update"
-    ),
+    path("worker/<int:pk>/update/", WorkerUpdateView.as_view(), name="worker-update"),
     path("worker/<int:pk>/delete/", WorkerDeleteView.as_view(), name="worker-delete"),
-
     # Authentication
-    path("accounts/login/", views.UserLoginView.as_view(), name="login"),
-    path("accounts/register/", views.register, name="register"),
-    path("accounts/logout/", views.logout_view, name="logout"),
+    path("accounts/login/", UserLoginView.as_view(), name="login"),
+    path("accounts/register/", RegisterView.as_view(), name="register"),
+    path("accounts/logout/", LogoutView.as_view(), name="logout"),
     path(
         "accounts/password-change/",
-        views.UserPasswordChangeView.as_view(),
+        UserPasswordChangeView.as_view(),
         name="password_change",
     ),
     path(
@@ -62,7 +66,7 @@ urlpatterns = [
     ),
     path(
         "accounts/password-reset/",
-        views.UserPasswordResetView.as_view(),
+        UserPasswordResetView.as_view(),
         name="password_reset",
     ),
     path(
@@ -74,7 +78,7 @@ urlpatterns = [
     ),
     path(
         "accounts/password-reset-confirm/<uidb64>/<token>/",
-        views.UserPasswordResetConfirmView.as_view(),
+        UserPasswordResetConfirmView.as_view(),
         name="password_reset_confirm",
     ),
     path(
