@@ -142,8 +142,6 @@ class RegisterView(generic.View):
             form.save()
             print("Account created successfully!")
             return redirect("/accounts/login")
-        else:
-            print("Registration failed!")
 
         context = {"form": form}
         return render(request, "accounts/sign-up.html", context)
@@ -195,5 +193,4 @@ class RemoveWorkerView(generic.View):
         return redirect("task:task-detail", pk=task.pk)
 
     def get(self, request, pk):
-        task = Task.objects.get(pk=pk)
-        return redirect("task-detail", pk=task.pk)
+        return redirect("task:task-detail", pk=pk)
