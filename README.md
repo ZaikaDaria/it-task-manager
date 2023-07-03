@@ -4,6 +4,8 @@
 
 This task manager helps you to get organized your thinks and increase efficiency. This repo contains the CRUD (Create, Retrieve, Update, Delete) concept, with this concept you can create basic Django applications and understand how a few things work, like urls, views, models and so on. 
 
+### Check it out!
+[Task Manager deployed to Render] (https://task-manager-zrmc.onrender.com/)
 ### Installation
 * Clone the repo.
 ```git
@@ -41,3 +43,10 @@ Here is a list of environment variables used in the application:
 * Make sure to keep the .env file secure and do not share it publicly, as it may contain sensitive information.
 * It is recommended to use a different set of environment variables for production, development, and testing environments.
 * If you are using a different configuration management system (e.g., Docker Compose, Kubernetes ConfigMap), you may not need to use an .env file. Adjust the configuration according to your environment.
+
+#### Test user
+Please use credentials below to review the app opportunities
+```
+Login: test_user
+Password: rttgd234_
+```
