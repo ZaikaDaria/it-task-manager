@@ -73,6 +73,7 @@ class TaskDetailView(LoginRequiredMixin, generic.DetailView):
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     model = Task
     form_class = TaskForm
+    fields = "__all__"
     success_url = reverse_lazy("task:task-list")
 
 
