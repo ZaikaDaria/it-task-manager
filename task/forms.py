@@ -34,11 +34,16 @@ class WorkerSearchForm(forms.Form):
     )
 
 
+class DateInput(forms.DateInput):
+    input_type = "date"
+
+
 class TaskForm(forms.ModelForm):
     assignees = forms.ModelMultipleChoiceField(
         queryset=get_user_model().objects.all(),
         widget=forms.CheckboxSelectMultiple,
     )
+    deadline = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
 
     class Meta:
         model = Task
